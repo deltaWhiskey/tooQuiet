@@ -26,9 +26,9 @@ dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 myUserName=`whoami`
 
 # Load custom settings, if any.
-if [ -f ${dir}/override.txt ]
+if [ -f ${dir}/override.conf ]
 then
-    . ${dir}/override.txt
+    . ${dir}/override.conf
 fi
 
 
