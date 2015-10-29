@@ -4,11 +4,38 @@
 # The defaults are listed below.  To change them, remove the "#" from the front of the line
 # and change the value.
 
-#testMode=0 # 0 for normal operation, or 1 to disable shutdown and echo instead of emailing
-#email=`whoami` # Email recipient, defaults to current user.  To customize, set like: email="me@domain.com"
-#emailVerbosity=1 # 0=no mail, 1=only on shutdown, 2=email every time script runs
+# In "test mode", tooQuiet echoes messages instead of emailing them, and will
+# never execute the shut down command.  Set to 1 to enable test mode.
+#testMode=0
+
+# This person gets notified by email when tooQuiet has something to announce.
+# The default of `whoami` sends email to the current UNIX user (that's the
+# crontab owner if this is being run as a crontab job, or root if script is run
+# via cron.daily.)  To set this to a custom email address, do something
+# like:  email="me@domain.com"
+#email=`whoami`
+
+# By default, tooQuiet only sends email when shutting down.  
+# 0=no mail, 1=only on shutdown, 2=email every time script runs
+#emailVerbosity=1
+
+
+# If either apache has had a hit, or the script user has used the command line,
+# in the time limits listed below, the computer stays on.  If both apache and
+# the command line have been unused for more than the minutes listed below,
+# computer will shut down.
 #maxMinutesCommandLineInactive=60
 #maxMinutesApacheInactive=60
+
+# Location of apache access log.  tooQuiet examines this log to find out how
+# long it has been since the last apache activity.
 #apacheAccessLog="/var/log/apache2/access.log"
+
+# Location of temp file used by tooQuiet to compose messages.  File is deleted
+# after every run.
 #tempFile="/tmp/tooquiet.tmp"
-#defaultMinutesCommandLineInactive="999" # Used if can not determine inactivty time
+
+# If command line idle time cannot be determined, tooQuiet will default to
+# reporting that command line has been idle for this long.  Must be a bigger
+# number than maxMinutesCommandLineInactive.
+#defaultMinutesCommandLineInactive="999"
