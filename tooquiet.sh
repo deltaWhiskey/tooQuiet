@@ -5,7 +5,7 @@
 # servers that need to turn themselves off when not in use (saving a
 # few Amazon bux.)
 #
-# 30  *   *   *   *   bash /home/ubuntu/bin/tooquiet.sh
+# 30  *   *   *   *   bash <pathToTooQuiet>/tooquiet.sh
 #
 
 ######################################################
@@ -21,9 +21,10 @@ maxMinutesApacheInactive=60
 apacheAccessLog="/var/log/apache2/access.log"
 tempFile="/tmp/tooquiet.tmp"
 defaultMinutesCommandLineInactive="999" # Used if can not determine inactivty time
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+myUserName=`whoami`
 
 # Load custom settings, if any.
-dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [ -f ${dir}/override.txt ]
 then
     . ${dir}/override.txt
@@ -36,7 +37,7 @@ fi
 # Get minutes since last command line activity
 function commandLineIdleTime ()
 {
-    local inactiveString=`who -a | grep ubuntu | cut -c 42-46 | sort | head -n1`
+    local inactiveString=`who -a | grep ${myUserName} | cut -c 42-46 | sort | head -n1`
 
     if [ "$inactiveString" == "  .  " ]; then
         echo 0
