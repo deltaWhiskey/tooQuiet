@@ -18,12 +18,3 @@ forever".  Which is not a problem if you only run this script during "off"
 hours, or leave your SSH sessions connected, or use "screen" and so leave
 sessions open even when not connected to the server.
 
-TODO
-
-    Instead of checking for activity on "ubuntu" user, check for activity
-    on current user (crontab user.)
-
-
-    Default to sending mail to current user, so that user can configure who
-    gets notifications via .forward file.
-
