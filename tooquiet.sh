@@ -14,13 +14,15 @@
 ## see override-example.txt.
 
 testMode=0 # 0 for normal operation, or 1 to disable shutdown and echo instead of emailing
-email="example@domain.com" # This person gets "shutting down" emails
+email=`whoami` # This person gets "shutting down" emails
 emailVerbosity=1 # 0=no mail, 1=only on shutdown, 2=email every time script runs
 maxMinutesCommandLineInactive=60
 maxMinutesApacheInactive=60
 apacheAccessLog="/var/log/apache2/access.log"
 tempFile="/tmp/tooquiet.tmp"
 defaultMinutesCommandLineInactive="999" # Used if can not determine inactivty time
+
+# A few more variables that will come in handy.
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 myUserName=`whoami`
 
