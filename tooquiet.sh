@@ -11,6 +11,7 @@
 ######################################################
 ## SETTINGS
 
+testMode=0 # 0 for normal operation, or 1 to disable shutdown and echo instead of emailing
 email="example@domain.com" # This person gets "shutting down" emails
 emailVerbosity=1 # 0=no mail, 1=only on shutdown, 2=email every time script runs
 maxMinutesCommandLineInactive=60
@@ -18,7 +19,6 @@ maxMinutesApacheInactive=60
 apacheAccessLog="/var/log/apache2/access.log"
 tempFile="/tmp/tooquiet.tmp"
 defaultMinutesCommandLineInactive="999" # Used if can not determine inactivty time
-
 
 
 ######################################################
@@ -66,7 +66,12 @@ function notify()
         logIt
         local today=`date`
         logIt "${today}" # To discourage Gmail web client from hiding the end of the email
-        cat $tempFile | /usr/sbin/sendmail ${email}
+        if [ "$testMode" -eq 0 ]
+        then
+            cat $tempFile | /usr/sbin/sendmail ${email}
+        else
+            cat $tempFile
+        fi
     fi
     rm $tempFile
 }
@@ -95,7 +100,10 @@ if [ "$commandLineMinutes" -ge "$maxMinutesCommandLineInactive" ]; then
     if [ "$apacheMinutes" -ge "$maxMinutesApacheInactive" ]; then
         logIt "This machine is idle.  SHUTTING DOWN."
         notify 1
-        sudo shutdown -h +5
+        if [ "${testMode}" -eq "0" ]
+        then
+            sudo shutdown -h +5
+        fi
         exit
     fi
 fi
