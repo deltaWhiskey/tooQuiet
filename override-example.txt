@@ -1,0 +1,11 @@
+# To override the default settings, make a copy of this file, name it "override.txt"
+# and make any changes you like.
+
+testMode=0 # 0 for normal operation, or 1 to disable shutdown and echo instead of emailing
+email="example@domain.com" # This person gets "shutting down" emails
+emailVerbosity=1 # 0=no mail, 1=only on shutdown, 2=email every time script runs
+maxMinutesCommandLineInactive=60
+maxMinutesApacheInactive=60
+apacheAccessLog="/var/log/apache2/access.log"
+tempFile="/tmp/tooquiet.tmp"
+defaultMinutesCommandLineInactive="999" # Used if can not determine inactivty time
