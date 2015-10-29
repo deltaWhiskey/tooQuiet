@@ -18,3 +18,13 @@ forever".  Which is not a problem if you only run this script during "off"
 hours, or leave your SSH sessions connected, or use "screen" and so leave
 sessions open even when not connected to the server.
 
+
+TODO
+
+Deal with this scenario:  tooquiet.sh can only determine command line idle time
+if someone is logged in to computer.  If all sessions are closed when
+tooquiet.sh runs, and computer has been running for longer than the
+"max idle time" settings, computer will shut off even if last log-off was only
+a moment previous.  Tooquiet.sh needs to be smart enough to know that there
+has been command line activity recently, even if no one is logged in at the
+moment.
