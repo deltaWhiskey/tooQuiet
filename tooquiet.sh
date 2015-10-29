@@ -20,7 +20,6 @@ maxMinutesCommandLineInactive=60
 maxMinutesApacheInactive=60
 apacheAccessLog="/var/log/apache2/access.log"
 tempFile="/tmp/tooquiet.tmp"
-defaultMinutesCommandLineInactive="999" # Used if can not determine inactivty time
 
 # A few more variables that will come in handy.
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -44,8 +43,8 @@ function commandLineIdleTime ()
     if [ "$inactiveString" == "  .  " ]; then
         echo 0
     elif [ "$inactiveString" == "" ]; then
-        # No current user sessions.  Treat as inactive.
-        echo $defaultMinutesCommandLineInactive
+        # No current user sessions.  Figure computer has been idle since boot.
+        echo $(upTime)
     else
         local inactiveHours=`echo $inactiveString | cut -c 1-2`
         local inactiveMinutes=`echo $inactiveString | cut -c 4-5`
@@ -63,7 +62,22 @@ function apacheIdleTime ()
     local secondsPast=`expr ${now} - ${apacheAccessed}`
     local minutesPast=`expr ${secondsPast} / 60`
 
+    # Never report that apache has been idle longer than computer has been on.
+    local minutesSinceBoot=$(upTime)
+    if [ "${minutesPast}" -gt "$minutesSinceBoot" ]
+    then
+        minutesPast=$minutesSinceBoot
+    fi
+
     echo ${minutesPast}
+}
+
+# Get minutes since boot
+function upTime ()
+{
+    local seconds=`cat /proc/uptime | sed 's/^\([^\.]*\)\..*/\1/'`
+    local minutes=`expr ${seconds} / 60`
+    echo ${minutes}
 }
 
 function logIt ()

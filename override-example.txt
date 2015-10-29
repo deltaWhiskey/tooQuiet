@@ -34,8 +34,3 @@
 # Location of temp file used by tooQuiet to compose messages.  File is deleted
 # after every run.
 #tempFile="/tmp/tooquiet.tmp"
-
-# If command line idle time cannot be determined, tooQuiet will default to
-# reporting that command line has been idle for this long.  Must be a bigger
-# number than maxMinutesCommandLineInactive.
-#defaultMinutesCommandLineInactive="999"
