@@ -108,9 +108,7 @@ function notify()
 ## MAIN ROUTINE
 
 # Initialize the temp file.  This may get used later to send email.
-echo "Subject: ${0}" > $tempFile
-logIt
-logIt "${0} starting up"
+echo "Subject: $(hostname) ${0}" > $tempFile
 logIt
 
 commandLineMinutes=$(commandLineIdleTime)
